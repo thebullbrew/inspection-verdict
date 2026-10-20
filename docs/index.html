@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Inspection Verdict — Walk, Negotiate, or Proceed</title>
+<meta name="description" content="Turn an inspection report into one honest call: must-fix systems cost vs cosmetic discount, credit ask, and a revised max offer.">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0A1F15">
+<link rel="icon" href="icons/icon-32.png"><link rel="apple-touch-icon" href="icons/icon-180.png">
+<style>
+:root{--bg:#0A1F15;--surface:#10281B;--surface2:#143320;--text:#F2F0E4;--muted:#B9BFA8;--accent:#D4AF37;--accent2:#1E5C3A;--line:#2A4A35;--danger:#E07A5F;--good:#7BC47F}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.5}
+a{color:var(--accent)} .wrap{max-width:1080px;margin:0 auto;padding:20px 16px 60px}
+.eyebrow{letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--accent);font-weight:700}
+h1{font-size:clamp(34px,6vw,58px);line-height:.95;margin:8px 0 10px} h2{font-size:24px;margin:0 0 10px} h3{margin:0 0 8px}
+.sub{color:var(--muted);font-size:17px;max-width:760px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:12px;padding:18px;margin:16px 0;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:760px){.grid,.grid3{grid-template-columns:1fr}}
+label{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:10px 0 5px}
+input,select{width:100%;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:#0A1F15;color:var(--text);font-size:16px;font-family:inherit}
+button{cursor:pointer;border:0;border-radius:999px;padding:11px 16px;font-weight:700;font-family:inherit}
+.btn{background:var(--accent);color:#0A1F15}.btn2{background:var(--accent2);color:#fff;border:1px solid var(--accent)}.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.hero-num{font-size:clamp(32px,5vw,52px);color:var(--accent);font-weight:800;line-height:1}
+.small{font-size:13px;color:var(--muted)} .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.lib button{text-align:left;background:#0E2417;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px}
+.lib button b{color:var(--accent);display:block}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--accent);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.seal{width:150px;height:150px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:0 auto;border:3px solid var(--accent);background:radial-gradient(circle at 35% 30%,#2E7D4F,#10281B 70%);color:#fff;padding:12px;box-shadow:0 0 0 6px rgba(212,175,55,.15)}
+.seal b{font-size:20px;letter-spacing:.06em}.seal span{font-size:11px;color:var(--accent)}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;border:1px solid var(--line);font-size:12px}
+.crit{color:#FF9A86}.maj{color:var(--accent)}.min{color:#A8C686}.cos{color:#C9B8D9}
+textarea{width:100%;min-height:130px;background:#0A1F15;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px;font-family:inherit}
+.kpi{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:14px}
+footer{color:var(--muted);font-size:13px;margin-top:24px}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">The Bull Brew · Daily Tool</p>
+<h1>The Inspection<br>Verdict</h1>
+<p class="sub">An inspection report is not a shopping list. It is a verdict waiting to happen. Separate the systems that can bleed you from the cosmetics that are your discount — then walk, negotiate, or proceed with a number, not a feeling.</p>
+
+<div class="card"><h2>1 · The house</h2><div class="grid">
+<div><label>Property nickname / address</label><input id="addr" value="The Grandmother House"></div>
+<div><label>Buyer type</label><select id="buyer"><option value="investor">Rental investor</option><option value="primary">Primary-home buyer</option></select></div>
+<div><label>Asking / agreed price ($)</label><input id="price" type="number" value="285000"></div>
+<div><label>Your current offer ($)</label><input id="offer" type="number" value="270000"></div>
+<div><label>Contingency on must-fix work (%)</label><input id="cont" type="number" value="15"></div>
+<div><label>Days to decide (inspection window)</label><input id="days" type="number" value="7"></div>
+</div><p class="small">Bull's rule: systems are the risk, cosmetics are the discount. A dated kitchen never killed a deal. A dead sewer line has killed plenty.</p></div>
+
+<div class="card"><h2>2 · Add findings — tap to add</h2><p class="small">Costs are typical mid-market ranges. Adjust the low/high on each line after a contractor quote. One tap adds it below.</p><div class="lib" id="lib"></div>
+<div style="margin-top:16px"><h3>Add a custom finding</h3><div class="grid3">
+<div><label>Name</label><input id="cName" placeholder="e.g. Radon system needed"></div>
+<div><label>Category</label><select id="cCat"><option>Roof</option><option>HVAC</option><option>Electrical</option><option>Plumbing</option><option>Structure</option><option>Water / Mold</option><option>Cosmetic</option><option>Other</option></select></div>
+<div><label>Severity</label><select id="cSev"><option>Critical</option><option>Major</option><option>Minor</option><option>Cosmetic</option></select></div>
+<div><label>Low estimate ($)</label><input id="cLow" type="number" value="1000"></div>
+<div><label>High estimate ($)</label><input id="cHigh" type="number" value="2500"></div>
+<div style="display:flex;align-items:end"><button class="btn" id="addCustom" style="width:100%">Add finding</button></div>
+</div></div></div>
+
+<div class="card"><h2>3 · Your findings</h2><div id="empty" class="small">No findings yet. Add at least one above — try Roof end-of-life + a dated kitchen to see the split.</div>
+<div style="overflow:auto"><table id="tbl" style="display:none"><thead><tr><th>Finding</th><th>Severity</th><th>Low</th><th>High</th><th>Mid</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div></div>
+
+<div class="grid">
+<div class="card" style="text-align:center"><div class="seal"><span>THE VERDICT</span><b id="verdict">—</b><span id="verdictSub">add findings</span></div><p id="verdictText" class="small" style="margin-top:14px">Your call will appear here.</p></div>
+<div class="card"><h2>The honest split</h2>
+<div class="grid"><div class="kpi"><div class="small">MUST-FIX (Critical + Major)</div><div class="hero-num" id="mustFix">$0</div></div>
+<div class="kpi"><div class="small">SOON (Minor)</div><div class="hero-num" id="soon">$0</div></div>
+<div class="kpi"><div class="small">COSMETIC (your discount)</div><div class="hero-num" id="cosmetic">$0</div></div>
+<div class="kpi"><div class="small">MUST-FIX AS % OF PRICE</div><div class="hero-num" id="pct">0%</div></div></div>
+<p>Credit ask (must-fix + contingency): <b id="credit" style="color:var(--accent)">$0</b><br>
+Revised max offer: <b id="revised" style="color:var(--accent)">$0</b> &nbsp;·&nbsp; Critical findings: <b id="critCount">0</b></p></div>
+</div>
+
+<div class="card"><h2>What if the quotes were optimistic?</h2><div style="overflow:auto"><table><thead><tr><th>Scenario</th><th>Must-fix</th><th>Credit ask</th><th>Revised max offer</th></tr></thead><tbody id="sens"></tbody></table></div>
+<p class="small">If +50% still leaves a deal you would sign, you have margin. If the base case already scares you, believe it.</p></div>
+
+<div class="card"><h2>Copy-ready negotiation summary</h2><textarea id="summary" readonly></textarea><div class="row" style="margin-top:10px"><button class="btn" id="copyBtn">Copy summary</button><button class="ghost" id="saveBtn">Save this inspection</button><input id="saveName" placeholder="Save name" style="max-width:220px"></div>
+<div id="saved" style="margin-top:12px"></div></div>
+
+<div class="card"><h2>The method</h2><ol>
+<li><b>Sort before you sum.</b> Adding a $20k kitchen refresh to a $15k sewer line hides the emergency inside the wishlist.</li>
+<li><b>Price the mid, pad the must-fix.</b> Contractors find friends behind walls. A 15% contingency is not pessimism, it is experience.</li>
+<li><b>Ask for credit, not repairs.</b> Seller repairs are done cheap and fast. A credit lets your contractor do it right.</li>
+<li><b>Reprice, don't panic.</b> Most bad inspections are not walk-aways — they are price corrections waiting for a calm buyer.</li>
+</ol></div>
+<footer>Static tool. No data leaves your device. Estimates are planning ranges, not quotes — get licensed contractors to price Critical and Major items before your window closes.</footer>
+</div>
+<script>
+const LIB=[
+["Roof — shingles at end of life","Roof","Major",12000,22000],["Roof — active leak","Roof","Critical",3500,8000],
+["Furnace at end of life","HVAC","Major",6500,11000],["AC not cooling","HVAC","Major",2800,6500],
+["Knob-and-tube / ungrounded wiring","Electrical","Critical",6000,14000],["Undersized 100A panel","Electrical","Major",1800,3200],
+["Galvanized plumbing / low pressure","Plumbing","Major",5000,12000],["Sewer line — roots or belly (scoped)","Plumbing","Critical",4000,15000],
+["Foundation crack / bowing wall","Structure","Critical",8000,25000],["Basement water intrusion","Water / Mold","Major",3000,9000],
+["Mold remediation needed","Water / Mold","Major",2500,8000],["Failed window seals (10 windows)","Other","Minor",4000,9000],
+["Kitchen — dated, functional","Cosmetic","Cosmetic",8000,25000],["Bathroom — dated, functional","Cosmetic","Cosmetic",5000,15000],
+["Flooring / carpet worn throughout","Cosmetic","Cosmetic",3000,8000],["Deck — unsafe / rotted boards","Structure","Major",2500,7000],
+["Chimney repointing","Roof","Minor",1800,4500],["Water heater over 10 years old","Plumbing","Minor",1200,2200]
+];
+let findings=[
+{name:"Sewer line — roots or belly (scoped)",cat:"Plumbing",sev:"Critical",low:4000,high:15000},
+{name:"Kitchen — dated, functional",cat:"Cosmetic",sev:"Cosmetic",low:8000,high:25000},
+{name:"Water heater over 10 years old",cat:"Plumbing",sev:"Minor",low:1200,high:2200}
+];
+const $=id=>document.getElementById(id);
+const fmt=n=>"$"+Math.round(n).toLocaleString();
+function renderLib(){$("lib").innerHTML=LIB.map((x,i)=>`<button data-i="${i}"><b>${x[0]}</b><span class="small">${x[2]} · ${fmt(x[3])}–${fmt(x[4])}</span></button>`).join("");document.querySelectorAll("#lib button").forEach(b=>b.onclick=()=>{let x=LIB[+b.dataset.i];findings.push({name:x[0],cat:x[1],sev:x[2],low:x[3],high:x[4]});calc();});}
+function sevClass(s){return s==="Critical"?"crit":s==="Major"?"maj":s==="Minor"?"min":"cos"}
+function calc(){
+ let price=+$("price").value||0, offer=+$("offer").value||0, cont=(+$("cont").value||0)/100;
+ let must=0,soon=0,cos=0,crit=0;
+ findings.forEach(f=>{let m=(+f.low+ +f.high)/2; if(f.sev==="Critical"||f.sev==="Major")must+=m; else if(f.sev==="Minor")soon+=m; else cos+=m; if(f.sev==="Critical")crit++;});
+ $("mustFix").textContent=fmt(must);$("soon").textContent=fmt(soon);$("cosmetic").textContent=fmt(cos);$("pct").textContent=price?((must/price*100).toFixed(1)+"%"):"0%";$("critCount").textContent=crit;
+ let credit=must*(1+cont), revised=Math.max(0,offer-credit);
+ $("credit").textContent=fmt(credit);$("revised").textContent=fmt(revised);
+ let pct=price?must/price:0, verdict,sub,text;
+ if(!findings.length){verdict="—";sub="add findings";text="Your call will appear here."}
+ else if(pct>0.10||crit>=2){verdict="WALK";sub="or reprice hard";text="The systems bill is too large to absorb at this price. Walk — or return only at the revised max offer with eyes open and contractor quotes in hand."}
+ else if(pct>=0.03||crit===1){verdict="NEGOTIATE";sub="credit, not repairs";text="This is a price problem, not a dead deal. Ask for the credit ask above, keep your contingency, and let the cosmetics become your upside."}
+ else{verdict="PROCEED";sub="price it and close";text="No systems emergency is hiding here. Price the small items, do not nickel-and-dime the seller, and close. Cosmetics are your discount, not your danger."}
+ if($("buyer").value==="primary"&&verdict==="PROCEED"&&soon>8000){text+=" One caution for a primary home: the Minor pile is heavy — budget it in year one so it does not become next year's Major pile."}
+ $("verdict").textContent=verdict;$("verdictSub").textContent=sub;$("verdictText").textContent=text;
+ $("empty").style.display=findings.length?"none":"block";$("tbl").style.display=findings.length?"table":"none";
+ $("tbody").innerHTML=findings.map((f,i)=>`<tr><td><b>${f.name}</b><br><span class="small">${f.cat}</span></td><td class="${sevClass(f.sev)}">${f.sev}</td><td><input type="number" value="${f.low}" data-i="${i}" data-k="low" style="width:100px;padding:6px"></td><td><input type="number" value="${f.high}" data-i="${i}" data-k="high" style="width:100px;padding:6px"></td><td>${fmt((+f.low+ +f.high)/2)}</td><td><button class="ghost" data-del="${i}">Remove</button></td></tr>`).join("");
+ document.querySelectorAll("#tbody input").forEach(inp=>inp.onchange=()=>{findings[+inp.dataset.i][inp.dataset.k]=+inp.value;calc();});
+ document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{findings.splice(+b.dataset.del,1);calc();});
+ let rows=[[ "Base case (mid estimates)",1],["Quotes run +25%",1.25],["Quotes run +50%",1.5]].map(r=>{let m=must*r[1],c=m*(1+cont);return `<tr><td>${r[0]}</td><td>${fmt(m)}</td><td>${fmt(c)}</td><td>${fmt(Math.max(0,offer-c))}</td></tr>`}).join("");
+ $("sens").innerHTML=rows;
+ $("summary").value=`THE INSPECTION VERDICT — ${$("addr").value}\nPrice: ${fmt(price)} · Offer: ${fmt(offer)} · Buyer: ${$("buyer").value==="primary"?"Primary home":"Rental investor"}\nVerdict: ${verdict} — ${sub}\nMust-fix (Critical + Major): ${fmt(must)} (${price?(must/price*100).toFixed(1):0}% of price)\nSoon (Minor): ${fmt(soon)} · Cosmetic: ${fmt(cos)}\nCritical findings: ${crit}\nCredit ask (must-fix + ${$("cont").value}% contingency): ${fmt(credit)}\nRevised max offer: ${fmt(revised)}\nFindings:\n`+findings.map(f=>`- [${f.sev}] ${f.name}: ${fmt(f.low)}–${fmt(f.high)}`).join("\n")+`\nAsk for credit, not seller repairs. Get contractor quotes on Critical/Major items before the ${$("days").value}-day window closes.`;
+ renderSaved();
+}
+function renderSaved(){let s={};try{s=JSON.parse(localStorage.getItem("inspection-verdict")||"{}")}catch(e){}let keys=Object.keys(s);$("saved").innerHTML=keys.length?keys.map(k=>`<span class="pill">${k} <button class="ghost" data-load="${k}" style="padding:2px 8px">Load</button> <button class="ghost" data-del-save="${k}" style="padding:2px 8px">×</button></span>`).join(" "):'<span class="small">No saved inspections yet.</span>';document.querySelectorAll("[data-load]").forEach(b=>b.onclick=()=>{let d=s[b.dataset.load];findings=d.findings;$("price").value=d.price;$("offer").value=d.offer;$("addr").value=d.addr;$("buyer").value=d.buyer;$("cont").value=d.cont;calc();});document.querySelectorAll("[data-del-save]").forEach(b=>b.onclick=()=>{delete s[b.dataset.delSave];localStorage.setItem("inspection-verdict",JSON.stringify(s));renderSaved();});}
+$("addCustom").onclick=()=>{findings.push({name:$("cName").value||"Custom finding",cat:$("cCat").value,sev:$("cSev").value,low:+$("cLow").value||0,high:+$("cHigh").value||0});calc();};
+["price","offer","cont","addr","buyer","days"].forEach(id=>$(id).addEventListener("input",calc));
+$("copyBtn").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($("summary").value);$("copyBtn").textContent="Copied";setTimeout(()=>$("copyBtn").textContent="Copy summary",1200);};
+$("saveBtn").onclick=()=>{let name=$("saveName").value||$("addr").value||"Inspection";let s={};try{s=JSON.parse(localStorage.getItem("inspection-verdict")||"{}")}catch(e){}s[name]={findings,price:$("price").value,offer:$("offer").value,addr:$("addr").value,buyer:$("buyer").value,cont:$("cont").value};localStorage.setItem("inspection-verdict",JSON.stringify(s));renderSaved();};
+renderLib();calc();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
+</script></body></html>
